@@ -1,0 +1,134 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: #F8FFF4;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #D8F3DC;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #95D5B2;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #74C69D;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 1.5s linear infinite;
+}
+
+/* Page transitions */
+.page-container {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: all 0.2s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px -5px rgba(45, 106, 79, 0.15);
+}
+
+/* Button styles */
+.btn-primary {
+  @apply bg-primary-800 text-white font-semibold py-3 px-6 rounded-xl 
+         transition-all duration-200 hover:bg-primary-700 
+         active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.btn-secondary {
+  @apply bg-primary-200 text-primary-800 font-medium py-2 px-4 rounded-lg 
+         transition-all duration-200 hover:bg-primary-300 active:scale-95;
+}
+
+/* Input styles */
+.input-primary {
+  @apply w-full px-4 py-3 rounded-xl border-2 border-primary-200 
+         bg-white focus:border-primary-500 focus:outline-none 
+         transition-colors duration-200 placeholder:text-gray-400;
+}
+
+/* Badge styles */
+.badge {
+  @apply inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium;
+}
+
+.badge-green {
+  @apply bg-green-100 text-green-800;
+}
+
+.badge-red {
+  @apply bg-red-100 text-red-800;
+}
+
+.badge-orange {
+  @apply bg-orange-100 text-orange-800;
+}
