@@ -1,0 +1,61 @@
+// Palette OptiVie (identique au tailwind du frontend web)
+export const theme = {
+  colors: {
+    primary: {
+      900: '#1B4332',
+      800: '#2D6A4F',
+      700: '#40916C',
+      600: '#52B788',
+      500: '#74C69D',
+      400: '#95D5B2',
+      300: '#B7E4C7',
+      200: '#D8F3DC',
+      100: '#F8FFF4',
+    },
+    gray: {
+      800: '#1f2937',
+      600: '#4b5563',
+      500: '#6b7280',
+      400: '#9ca3af',
+    },
+    white: '#FFFFFF',
+    red: {
+      50: '#FEF2F2',
+      100: '#FEE2E2',
+      200: '#FECACA',
+      500: '#EF4444',
+      600: '#DC2626',
+      700: '#B91C1C',
+      800: '#991B1B',
+    },
+    green: {
+      50: '#F0FDF4',
+      100: '#DCFCE7',
+      200: '#BBF7D0',
+      600: '#16A34A',
+      800: '#166534',
+    },
+    orange: {
+      50: '#FFF7ED',
+      100: '#FFEDD5',
+      200: '#FED7AA',
+      600: '#EA580C',
+      800: '#9A3412',
+    },
+  },
+  spacing: {
+    xs: 4,
+    sm: 8,
+    md: 12,
+    lg: 16,
+    xl: 20,
+    xxl: 24,
+  },
+  borderRadius: {
+    sm: 8,
+    md: 12,
+    lg: 16,
+    xl: 20,
+    full: 9999,
+  },
+}

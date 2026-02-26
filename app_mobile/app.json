@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "OptiVie",
+    "slug": "optivie",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#F8FFF4"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.optivie.app"
+    },
+    "android": {
+      "package": "com.optivie.app"
+    }
+  }
+}
