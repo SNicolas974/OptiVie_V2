@@ -1,0 +1,11 @@
+exclude:
+  - node_modules
+  - frontend/node_modules
+  - backend/node_modules
+  - app_mobile/node_modules
+  - vendor
+  - package*.json
+  - yarn.lock
+  - pnpm-lock.yaml
+  - Gemfile
+  - Gemfile.lock
