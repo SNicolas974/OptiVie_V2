@@ -1,6 +1,9 @@
 import express from 'express';
 import Anthropic from '@anthropic-ai/sdk';
-import { SYSTEM_PROMPT, getUserPrompt, getImageAnalysisPrompt, getRecalculatePrompt, ADVICE_SYSTEM_PROMPT, getAdvicePrompt } from '../prompts/antiInflammatory.js';
+import { getPersonalizedSystemPrompt, getUserPrompt, getImageAnalysisPrompt, getRecalculatePrompt, ADVICE_SYSTEM_PROMPT, getAdvicePrompt } from '../prompts/antiInflammatory.js';
+import { optionalAuth } from '../middleware/auth.js';
+import db from '../models/db.js';
+import { updateStatsAfterScan } from './stats.js';
 
 const router = express.Router();
 
@@ -29,17 +32,61 @@ const parseClaudeResponse = (text) => {
   return JSON.parse(jsonText.trim());
 };
 
+// Helper to get user goals from database
+const getUserGoals = (userId) => {
+  if (!userId) return [];
+  
+  try {
+    const rows = db.prepare(
+      'SELECT goal_type FROM health_goals WHERE user_id = ? AND is_active = 1'
+    ).all(userId);
+    return rows.map(row => row.goal_type);
+  } catch (error) {
+    console.error('Error fetching user goals:', error);
+    return [];
+  }
+};
+
+// Helper to save analysis to history and update stats
+const saveAnalysisHistory = (userId, analysisResult) => {
+  if (!userId) return;
+  
+  try {
+    db.prepare(`
+      INSERT INTO analysis_history (user_id, plat, score_global, ingredients, analysis_data) 
+      VALUES (?, ?, ?, ?, ?)
+    `).run(
+      userId, 
+      analysisResult.plat, 
+      analysisResult.score_global, 
+      JSON.stringify(analysisResult.ingredients),
+      JSON.stringify(analysisResult)
+    );
+
+    // Mettre à jour les statistiques
+    updateStatsAfterScan(userId, analysisResult.score_global, analysisResult.plat);
+  } catch (error) {
+    console.error('Error saving analysis history:', error);
+  }
+};
+
 // POST /api/analyze - Analyze a dish (text or image)
-router.post('/analyze', async (req, res) => {
+router.post('/analyze', optionalAuth, async (req, res) => {
   try {
     const { plat, image, mimeType } = req.body;
+    const userId = req.userId; // From optionalAuth middleware
 
     console.log('Analyze request received:', { 
       hasPlat: !!plat, 
       hasImage: !!image, 
       mimeType,
+      userId: userId || 'anonymous',
       imageLength: image ? image.length : 0 
     });
+
+    // Get user goals if authenticated
+    const userGoals = getUserGoals(userId);
+    console.log('User goals:', userGoals);
 
     // Validate input: either plat (text) or image (base64)
     const hasText = plat && typeof plat === 'string' && plat.trim().length > 0;
@@ -53,6 +100,9 @@ router.post('/analyze', async (req, res) => {
     }
 
     const anthropic = getAnthropicClient();
+
+    // Get personalized system prompt based on user goals
+    const systemPrompt = getPersonalizedSystemPrompt(userGoals);
 
     let messageContent;
 
@@ -77,18 +127,18 @@ router.post('/analyze', async (req, res) => {
         },
         {
           type: 'text',
-          text: getImageAnalysisPrompt()
+          text: getImageAnalysisPrompt(userGoals)
         }
       ];
     } else {
       // Text analysis
-      messageContent = getUserPrompt(plat.trim());
+      messageContent = getUserPrompt(plat.trim(), userGoals);
     }
 
     const message = await anthropic.messages.create({
       model: 'claude-sonnet-4-20250514',
       max_tokens: 1500,
-      system: SYSTEM_PROMPT,
+      system: systemPrompt,
       messages: [
         {
           role: 'user',
@@ -112,6 +162,9 @@ router.post('/analyze', async (req, res) => {
       console.error('Raw response:', textContent.text);
       throw new Error('Impossible de parser la réponse de l\'analyse');
     }
+
+    // Save to history if user is authenticated
+    saveAnalysisHistory(userId, analysisResult);
 
     res.json(analysisResult);
 
@@ -140,11 +193,12 @@ router.post('/analyze', async (req, res) => {
 });
 
 // POST /api/recalculate - Recalculate score with modified ingredients
-router.post('/recalculate', async (req, res) => {
+router.post('/recalculate', optionalAuth, async (req, res) => {
   try {
     const { plat, ingredients } = req.body;
+    const userId = req.userId;
 
-    console.log('Recalculate request received:', { plat, ingredients });
+    console.log('Recalculate request received:', { plat, ingredients, userId: userId || 'anonymous' });
 
     if (!plat || !ingredients) {
       return res.status(400).json({
@@ -153,16 +207,20 @@ router.post('/recalculate', async (req, res) => {
       });
     }
 
+    // Get user goals if authenticated
+    const userGoals = getUserGoals(userId);
+
     const anthropic = getAnthropicClient();
+    const systemPrompt = getPersonalizedSystemPrompt(userGoals);
 
     const message = await anthropic.messages.create({
       model: 'claude-sonnet-4-20250514',
       max_tokens: 1500,
-      system: SYSTEM_PROMPT,
+      system: systemPrompt,
       messages: [
         {
           role: 'user',
-          content: getRecalculatePrompt(plat, ingredients)
+          content: getRecalculatePrompt(plat, ingredients, userGoals)
         }
       ]
     });
@@ -180,6 +238,9 @@ router.post('/recalculate', async (req, res) => {
       console.error('Raw response:', textContent.text);
       throw new Error('Impossible de parser la réponse du recalcul');
     }
+
+    // Save to history if user is authenticated
+    saveAnalysisHistory(userId, analysisResult);
 
     res.json(analysisResult);
 
