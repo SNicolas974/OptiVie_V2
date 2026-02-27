@@ -4,19 +4,43 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=1800, initial-scale=1.0">
   <title>OptiVie - Maquettes Completes</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Polices: Logo Borsok, Titres Bellaboo, Texte Nunito -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
+    /* Borsok (logo) et Bellaboo (titres) - fonts/boorsok.otf et fonts/bellaboo.otf */
+    @font-face {
+      font-family: 'Borsok';
+      src: local('Borsok'), url('fonts/boorsok.otf') format('opentype');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Bellaboo';
+      src: local('Bellaboo'), url('fonts/bellaboo.otf') format('opentype');
+      font-display: swap;
+    }
+
     :root {
-      --primary-50: #f0fdf4;
-      --primary-100: #dcfce7;
-      --primary-200: #bbf7d0;
-      --primary-300: #86efac;
-      --primary-400: #4ade80;
-      --primary-500: #22c55e;
-      --primary-600: #16a34a;
-      --primary-700: #15803d;
-      --primary-800: #166534;
-      --primary-900: #14532d;
+      /* Fond de l'application uniquement (maquettes) */
+      --app-bg: #2d5016;
+      /* Autres couleurs autorisées (hors fond) */
+      --green-dark: #4a7c2f;
+      --green-mid: #7ba05b;
+      --green-light: #b8d4a0;
+      --green-pale: #e8f3dc;
+      --text-on-green: #ffeaf8;
+      /* Mapping pour le CSS existant */
+      --primary-50: #e8f3dc;
+      --primary-100: #e8f3dc;
+      --primary-200: #b8d4a0;
+      --primary-300: #b8d4a0;
+      --primary-400: #7ba05b;
+      --primary-500: #7ba05b;
+      --primary-600: #7ba05b;
+      --primary-700: #4a7c2f;
+      --primary-800: #4a7c2f;
+      --primary-900: #4a7c2f;
+      --accent-pink: #ffeaf8;
+      /* Gris (pour texte sur blanc / cartes) */
       --gray-50: #f9fafb;
       --gray-100: #f3f4f6;
       --gray-200: #e5e7eb;
@@ -26,31 +50,20 @@
       --gray-600: #4b5563;
       --gray-700: #374151;
       --gray-800: #1f2937;
+      /* Couleurs d'etat (discret) */
       --red-50: #fef2f2;
       --red-100: #fee2e2;
-      --red-200: #fecaca;
-      --red-300: #fca5a5;
       --red-400: #f87171;
       --red-500: #ef4444;
-      --red-600: #dc2626;
       --purple-50: #faf5ff;
       --purple-100: #f3e8ff;
-      --purple-400: #c084fc;
-      --purple-500: #a855f7;
-      --purple-600: #9333ea;
       --orange-50: #fff7ed;
       --orange-100: #ffedd5;
       --orange-400: #fb923c;
       --orange-500: #f97316;
-      --orange-600: #ea580c;
       --blue-50: #eff6ff;
       --blue-100: #dbeafe;
-      --blue-400: #60a5fa;
-      --blue-500: #3b82f6;
-      --blue-600: #2563eb;
       --yellow-50: #fefce8;
-      --yellow-400: #facc15;
-      --yellow-500: #eab308;
     }
 
     * {
@@ -60,14 +73,21 @@
     }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: white;
       min-height: 100vh;
       padding: 40px 20px;
+      color: var(--gray-800);
     }
 
+    /* Classes de polices : logo + titres = Borsok, sous-titres = Bellaboo, texte = Nunito */
+    .font-logo { font-family: 'Borsok', cursive; }
+    .font-title { font-family: 'Borsok', sans-serif; }
+    .font-body { font-family: 'Nunito', sans-serif; }
+
     .section-title {
-      color: white;
+      font-family: 'Borsok', sans-serif;
+      color: var(--primary-900);
       font-size: 32px;
       font-weight: 800;
       text-align: center;
@@ -75,7 +95,8 @@
     }
 
     .section-subtitle {
-      color: rgba(255,255,255,0.6);
+      font-family: 'Bellaboo', sans-serif;
+      color: var(--gray-600);
       font-size: 16px;
       text-align: center;
       margin-bottom: 40px;
@@ -98,18 +119,18 @@
     }
 
     .screen-label {
-      color: white;
+      color: var(--gray-700);
+      font-family: 'Bellaboo', sans-serif;
       font-size: 14px;
       font-weight: 600;
       text-align: center;
-      opacity: 0.8;
       max-width: 200px;
     }
 
     .phone {
       width: 375px;
       height: 812px;
-      background: var(--primary-100);
+      background: var(--app-bg);
       border-radius: 40px;
       overflow: hidden;
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
@@ -131,7 +152,7 @@
 
     .status-bar {
       height: 44px;
-      background: var(--primary-100);
+      background: var(--app-bg);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -142,12 +163,12 @@
     .status-bar span {
       font-size: 14px;
       font-weight: 600;
-      color: var(--gray-800);
+      color: #ffeaf8;
     }
 
     .header {
       padding: 16px 20px;
-      background: var(--primary-100);
+      background: var(--app-bg);
     }
 
     .header-row {
@@ -157,27 +178,30 @@
     }
 
     .header h1 {
+      font-family: 'Borsok', sans-serif;
       font-size: 28px;
       font-weight: 700;
-      color: var(--gray-800);
+      color: #ffeaf8;
     }
 
     .header p {
+      font-family: 'Bellaboo', sans-serif;
       font-size: 14px;
-      color: var(--gray-500);
+      color: #ffeaf8;
+      opacity: 0.9;
       margin-top: 4px;
     }
 
     .header-avatar {
       width: 44px;
       height: 44px;
+      background: linear-gradient(135deg, var(--green-mid), var(--green-dark));
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary-400), var(--primary-600));
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 20px;
-      color: white;
+      color: #ffeaf8;
       font-weight: 700;
     }
 
@@ -185,10 +209,11 @@
       padding: 0 16px 100px;
       overflow-y: auto;
       height: calc(100% - 130px);
+      background: var(--app-bg);
     }
 
     .card {
-      background: white;
+      background: #e8f3dc;
       border-radius: 20px;
       padding: 20px;
       margin-bottom: 16px;
@@ -197,6 +222,7 @@
     }
 
     .card-title {
+      font-family: 'Borsok', sans-serif;
       font-size: 16px;
       font-weight: 600;
       color: var(--gray-800);
@@ -206,6 +232,10 @@
       gap: 8px;
     }
 
+    .card-title-bellaboo {
+      font-family: 'Bellaboo', sans-serif;
+    }
+
     /* Bottom Navigation */
     .bottom-nav {
       position: absolute;
@@ -213,12 +243,12 @@
       left: 0;
       right: 0;
       height: 84px;
-      background: white;
+      background: var(--app-bg);
       display: flex;
       justify-content: space-around;
       align-items: center;
       padding-bottom: 20px;
-      border-top: 1px solid var(--gray-200);
+      border-top: 1px solid rgba(255, 234, 248, 0.2);
     }
 
     .nav-item {
@@ -226,17 +256,16 @@
       flex-direction: column;
       align-items: center;
       gap: 4px;
-      color: var(--gray-400);
+      color: #ffeaf8;
       cursor: pointer;
       transition: all 0.2s;
+      opacity: 0.75;
     }
 
-    .nav-item:hover {
-      color: var(--gray-600);
-    }
-
+    .nav-item:hover,
     .nav-item.active {
-      color: var(--primary-600);
+      color: #ffeaf8;
+      opacity: 1;
     }
 
     .nav-icon {
@@ -244,25 +273,29 @@
     }
 
     .nav-label {
+      font-family: 'Nunito', sans-serif;
       font-size: 10px;
       font-weight: 500;
+      color: #ffeaf8;
     }
 
     /* ==================== ACCUEIL ==================== */
     .welcome-card {
-      background: linear-gradient(135deg, var(--primary-600), var(--primary-800));
+      background: linear-gradient(135deg, var(--green-mid), var(--green-dark));
       border-radius: 20px;
       padding: 24px;
       margin-bottom: 16px;
-      color: white;
+      color: #ffeaf8;
     }
 
     .welcome-greeting {
+      font-family: 'Bellaboo', sans-serif;
       font-size: 14px;
       opacity: 0.9;
     }
 
     .welcome-name {
+      font-family: 'Borsok', sans-serif;
       font-size: 24px;
       font-weight: 700;
       margin: 4px 0 16px;
@@ -313,6 +346,7 @@
     }
 
     .streak-title {
+      font-family: 'Bellaboo', sans-serif;
       font-size: 16px;
       font-weight: 600;
       color: var(--gray-800);
@@ -374,7 +408,7 @@
     }
 
     .quick-action {
-      background: white;
+      background: #e8f3dc;
       border-radius: 16px;
       padding: 16px;
       display: flex;
@@ -427,7 +461,7 @@
     .tip-icon {
       width: 40px;
       height: 40px;
-      background: white;
+      background: #e8f3dc;
       border-radius: 12px;
       display: flex;
       align-items: center;
@@ -436,6 +470,7 @@
     }
 
     .tip-title {
+      font-family: 'Bellaboo', sans-serif;
       font-size: 15px;
       font-weight: 600;
       color: var(--gray-800);
@@ -473,6 +508,7 @@
     }
 
     .upload-title {
+      font-family: 'Bellaboo', sans-serif;
       font-size: 16px;
       font-weight: 600;
       color: var(--primary-700);
@@ -519,7 +555,7 @@
       width: 100%;
       padding: 16px;
       background: var(--primary-800);
-      color: white;
+      color: #ffeaf8;
       border: none;
       border-radius: 14px;
       font-size: 16px;
@@ -570,7 +606,7 @@
       position: absolute;
       width: 110px;
       height: 110px;
-      background: white;
+      background: #e8f3dc;
       border-radius: 50%;
     }
 
@@ -836,7 +872,7 @@
     }
 
     .correlation-card {
-      background: white;
+      background: #e8f3dc;
       border-radius: 16px;
       padding: 16px;
       border: 1px solid var(--primary-200);
@@ -886,7 +922,7 @@
       position: absolute;
       width: 60px;
       height: 60px;
-      background: white;
+      background: #e8f3dc;
       border-radius: 50%;
     }
 
@@ -998,7 +1034,7 @@
     }
 
     .settings-card {
-      background: white;
+      background: #e8f3dc;
       border-radius: 16px;
       overflow: hidden;
     }
@@ -1072,7 +1108,7 @@
       position: absolute;
       width: 24px;
       height: 24px;
-      background: white;
+      background: #e8f3dc;
       border-radius: 50%;
       top: 2px;
       right: 2px;
@@ -1158,7 +1194,7 @@
       display: flex;
       align-items: center;
       padding: 14px;
-      background: white;
+      background: #e8f3dc;
       border-radius: 14px;
       margin-bottom: 10px;
       border: 1px solid var(--gray-100);
@@ -1294,7 +1330,7 @@
     }
 
     .time-btn.active {
-      background: white;
+      background: #e8f3dc;
       color: var(--gray-800);
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
@@ -1317,7 +1353,7 @@
     .insight-icon {
       width: 36px;
       height: 36px;
-      background: white;
+      background: #e8f3dc;
       border-radius: 10px;
       display: flex;
       align-items: center;
@@ -1326,6 +1362,7 @@
     }
 
     .insight-title {
+      font-family: 'Bellaboo', sans-serif;
       font-size: 14px;
       font-weight: 600;
       color: var(--gray-800);
@@ -1393,6 +1430,10 @@
 </head>
 <body>
 
+  <header style="text-align: center; margin-bottom: 32px;">
+    <h1 class="font-logo" style="font-size: 48px; color: var(--primary-900); letter-spacing: 0.02em;">OptiVie</h1>
+  </header>
+
   <!-- ==================== ACCUEIL ==================== -->
   <h1 class="section-title">Accueil</h1>
   <p class="section-subtitle">Page d'accueil avec resume et actions rapides</p>
@@ -1400,7 +1441,7 @@
   <div class="screens-row">
     <!-- Accueil - Titi (regles douloureuses) -->
     <div class="screen-container">
-      <div class="screen-label">Accueil - Titi</div>
+      <div class="screen-label">Accueil - Annabelle</div>
       <div class="phone">
         <div class="status-bar">
           <span>9:41</span>
@@ -1410,7 +1451,7 @@
         <div class="header">
           <div class="header-row">
             <div>
-              <h1>Bonjour Titi</h1>
+              <h1>Bonjour Annablle</h1>
               <p>Comment vas-tu aujourd'hui ?</p>
             </div>
             <div class="header-avatar">T</div>
@@ -1421,7 +1462,7 @@
           <!-- Welcome Card -->
           <div class="welcome-card">
             <div class="welcome-greeting">Ta semaine en cours</div>
-            <div class="welcome-name">Continue comme ca !</div>
+            <!-- <div class="welcome-name">Continue comme ca !</div> -->
             <div class="welcome-stats">
               <div class="welcome-stat">
                 <div class="welcome-stat-icon">🔥</div>
@@ -1532,7 +1573,7 @@
 
     <!-- Accueil - Toto (perte de poids) -->
     <div class="screen-container">
-      <div class="screen-label">Accueil - Toto</div>
+      <div class="screen-label">Accueil - Clara</div>
       <div class="phone">
         <div class="status-bar">
           <span>9:41</span>
@@ -1542,7 +1583,7 @@
         <div class="header">
           <div class="header-row">
             <div>
-              <h1>Bonjour Toto</h1>
+              <h1>Bonjour Clara</h1>
               <p>Pret pour une journee saine ?</p>
             </div>
             <div class="header-avatar">T</div>
@@ -1553,7 +1594,6 @@
           <!-- Welcome Card -->
           <div class="welcome-card">
             <div class="welcome-greeting">Ta semaine en cours</div>
-            <div class="welcome-name">Tu peux faire mieux !</div>
             <div class="welcome-stats">
               <div class="welcome-stat">
                 <div class="welcome-stat-icon">🔥</div>
@@ -1676,7 +1716,7 @@
           </div>
 
           <!-- Recent scans -->
-          <div class="card-title" style="padding-left: 4px;">Derniers scans</div>
+          <div class="card-title card-title-bellaboo" style="padding-left: 4px;">Derniers scans</div>
           
           <div class="history-item">
             <div class="history-image">🍔</div>
@@ -1936,7 +1976,7 @@
         
         <div class="header">
           <h1>Mon Suivi</h1>
-          <p>Bonjour Titi, comment te sens-tu ?</p>
+          <p>Bonjour Annablle, comment te sens-tu ?</p>
         </div>
 
         <div class="content">
@@ -2356,7 +2396,7 @@
   <div class="screens-row">
     <!-- Profil - Titi -->
     <div class="screen-container">
-      <div class="screen-label">Profil - Titi</div>
+      <div class="screen-label">Profil - Annabelle</div>
       <div class="phone">
         <div class="status-bar">
           <span>9:41</span>
@@ -2371,8 +2411,8 @@
           <!-- Profile Header -->
           <div class="profile-header-card">
             <div class="profile-avatar">👩</div>
-            <div class="profile-name">Titi</div>
-            <div class="profile-email">titi@test.com</div>
+            <div class="profile-name">Annabelle</div>
+            <div class="profile-email">annabelle@test.com</div>
             
             <div class="profile-stats">
               <div class="profile-stat">
@@ -2478,7 +2518,7 @@
 
     <!-- Profil - Toto -->
     <div class="screen-container">
-      <div class="screen-label">Profil - Toto</div>
+      <div class="screen-label">Profil - Clara</div>
       <div class="phone">
         <div class="status-bar">
           <span>9:41</span>
@@ -2493,8 +2533,8 @@
           <!-- Profile Header -->
           <div class="profile-header-card">
             <div class="profile-avatar">👨</div>
-            <div class="profile-name">Toto</div>
-            <div class="profile-email">toto@test.com</div>
+            <div class="profile-name">Clara</div>
+            <div class="profile-email">clara@test.com</div>
             
             <div class="profile-stats">
               <div class="profile-stat">
